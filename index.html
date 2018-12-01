@@ -1,0 +1,86 @@
+<!-- DOCTYPE html -->
+<html>
+<head>
+<title>Minimal Timer</title>
+<style>
+
+	.mainContainerDiv{
+		border: 1px solid red; 
+		height: 100vh;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.innerContainer{
+		text-align: center;
+		height: 100px;
+		border: 1px solid blue;
+	}
+
+</style>
+
+</head>
+<body>
+
+	<div class="mainContainerDiv"> 
+		<div class="innerContainer">
+		<div id="timerDiv" >Timer</div>
+		<div><button onclick="beginProcess()">Click to leave</button></div>    
+		<div><button onclick="stopCount()" >Stop it</button></div>
+        </div>
+    </div>
+
+<script>
+
+var endpoint = 'http://localhost:8888'; 
+// var endpoint = 'https://cloze-maker.herokuapp.com';
+
+let count = 0;
+var currentTimer
+document.getElementById( "timerDiv" ).innerHTML = count;
+
+function beginProcess(){
+	changeLocation();
+	startCount();
+}
+
+function increment(){
+	console.log( ' in the increment function with count: ', count );
+
+	count += 1;
+	document.getElementById( "timerDiv" ).innerHTML = count;
+}
+
+function startCount(){
+    currentTimer = setInterval( increment, 1000);
+
+}
+
+function stopCount(){
+	clearInterval( currentTimer );
+}
+
+function changeLocation(){
+	const dynoURL = `${ endpoint }`;
+	const dyno = fetch(dynoURL);
+
+	dyno
+	.then(() => {
+	location.href= dynoURL;
+	})
+}
+
+
+
+</script>
+</body>
+
+</html>
+
+
+
+
+
+
+
