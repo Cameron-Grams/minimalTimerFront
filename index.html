@@ -12,12 +12,17 @@
 		height: 100vh;
 		display: flex;
 		justify-content: center;
-		align-items: center;
+		align-items: flex-start;
 	}
 
 	.innerContainer{
+		flex: 1;
 		text-align: center;
 		height: 100px;
+	}
+
+	.spacer{
+		heigh: 200px;
 	}
 
 </style>
@@ -27,6 +32,7 @@
 
 	<div class="mainContainerDiv"> 
 		<div class="innerContainer">
+		<div class="spacer"></div>
 		<div >
 			<h1 id="timerCount" >Cloze Developer</h1>
 			<p id="introText">This is the launch for the Cloze Maker application.</p>
