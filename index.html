@@ -4,8 +4,9 @@
 <title>Minimal Timer</title>
 <style>
 	body{
-		background-color: #e2b83b;
-		color: #3f3e3b;
+		background-color: #f0ecd7;
+		color: #1e2324;
+		font-family: Arial, Helvetica, sans-serif; 
 	}
 
 	.mainContainerDiv{
@@ -22,9 +23,23 @@
 	}
 
 	.spacer{
-		heigh: 200px;
+		height: 200px;
 	}
 
+    .countButton{
+		background-color: #1e2324;
+		color: white;
+		margin: 10px; 
+		font-size: 14px;
+		border: 1px solid transparent;
+		border-radius: 3px;
+	}
+
+    .countButton:hover{
+		background-color: #f54c42;
+		color: #1e2324;
+	}
+	
 </style>
 
 </head>
@@ -35,54 +50,53 @@
 		<div class="spacer"></div>
 		<div >
 			<h1 id="timerCount" >Cloze Developer</h1>
-			<p id="introText">This is the launch for the Cloze Maker application.</p>
+			<p id="introText">The Cloze Exercise is the traditional "fill in the blank" exercise done to demonstrate a knowledge of vocabulary.</p>
+			<p id="removeText">Click below to retrieve the resources needed for the exericse.</p>
 			<p id="warningText"></p>
 		</div>
-		<div><button onclick="beginProcess()">Click to leave</button></div>    
-		<div><button onclick="stopCount()" >Stop it</button></div>
+		<div><button class="countButton" onclick="beginProcess()">Begin creating the Exercise</button></div>    
         </div>
     </div>
 
 <script>
+	var endpoint = 'https://cloze-maker.herokuapp.com';
 
-// var endpoint = 'http://localhost:8888'; 
-var endpoint = 'https://cloze-maker.herokuapp.com';
+	let count = 0;
+	var currentTimer
 
-let count = 0;
-var currentTimer
+	function beginProcess(){
+		document.getElementById( "introText" ).innerHTML = "Please wait while we retrieve the needed resources."
+		document.getElementById( "removeText" ).innerHTML = " "
+		document.getElementById( "warningText" ).innerHTML ="If the count reaches 50 please refresh the screen and try again."
+		changeLocation();
+		startCount();
+	}
 
-function beginProcess(){
-	document.getElementById( "introText" ).innerHTML = "Please wait while we retrieve the needed resources."
-	document.getElementById( "warningText" ).innerHTML ="If the count reaches 50 please refresh the screen and try again."
-	changeLocation();
-	startCount();
-}
+	function increment(){
+		console.log( ' in the increment function with count: ', count );
 
-function increment(){
-	console.log( ' in the increment function with count: ', count );
+		count += 1;
+		document.getElementById( "timerCount" ).innerHTML = count;
+	}
 
-	count += 1;
-	document.getElementById( "timerCount" ).innerHTML = count;
-}
+	function startCount(){
+		currentTimer = setInterval( increment, 1000);
 
-function startCount(){
-    currentTimer = setInterval( increment, 1000);
+	}
 
-}
+	function stopCount(){
+		clearInterval( currentTimer );
+	}
 
-function stopCount(){
-	clearInterval( currentTimer );
-}
+	function changeLocation(){
+		const dynoURL = `${ endpoint }`;
+		const dyno = fetch(dynoURL);
 
-function changeLocation(){
-	const dynoURL = `${ endpoint }`;
-	const dyno = fetch(dynoURL);
-
-	dyno
-	.then(() => {
-	location.href= dynoURL;
-	})
-}
+		dyno
+		.then(() => {
+		location.href= dynoURL;
+		})
+	}
 
 
 
